@@ -26,6 +26,28 @@
         }
     }
 </script> 
+
+    <html>
+<head>
+    <script>
+<script language="JavaScript">
+<!--
+function PopWindowOne()
+{
+    floatingWindow = window.open("0/1.html","","height=200,width=400,scrollbars=no");
+}
+
+}
+//-->
+</script>
+</head>
+
+<body onLoad="PopWindowOne()">
+<h1>Welcome to fqmi's Void want to look around?</h1>
+</script>
+    
+</body>
+</html>
     </script>
     <script>
     <script><element onclick="href='0/'"> alt="index2>">
@@ -55,172 +77,5 @@
     margin:0;
 }
 </body>
-    
-    <script>
-    <element onclick="prop-panel">
-
-<float-window id="prop-panel" width="300" height="200">
-  <span slot="header">Property</span>
-  <dl>
-    <dt>Size</dt>
-    <dd>Width</dd>
-    <dd>Height</dd>
-  </dl>
-</float-window>
-
-<script>
-  class FloatWindow extends HTMLElement {
-    constructor() {
-      super()
-      this.attachShadow({mode: 'open'})
-      this.shadowRoot.innerHTML = `
-      <style>
-        .window {
-          position: absolute;
-          background-color: white;
-          border: 1px solid gray;
-          box-shadow: 0 0 10px rgba(0,0,0,0.5);
-          display: none;
-        }
-
-        .titleBar {
-          background-color: lightgray;
-          padding: 5px;
-          cursor: move;
-        }
-
-        .closeBtn {
-          float: right;
-          cursor: pointer;
-        }
-
-      </style>
-      <div class="window">
-        <div class="titleBar">
-          <span class="title"><slot name="header"></slot></span>
-          <span class="closeBtn">×</span>
-        </div>
-        <div class="content">
-          <slot></slot>
-        </div>
-      </div>
-    `
-
-      this.window = this.shadowRoot.querySelector('.window')
-      this.window.style.width = this.getAttribute("width")
-      this.window.style.height = this.getAttribute("height")
-      this.titleBar = this.shadowRoot.querySelector('.titleBar')
-      this.closeBtn = this.shadowRoot.querySelector('.closeBtn')
-      this.content = this.shadowRoot.querySelector('.content')
-
-      this.mouseDownX = 0
-      this.mouseDownY = 0
-      this.translateX = 0
-      this.translateY = 0
-
-      // for resize use
-      this._width = 0
-      this._height = 0
-
-      this.titleBar.addEventListener('mousedown', this.dragStart.bind(this))
-      this.closeBtn.addEventListener('click', this.close.bind(this))
-
-      this.window.addEventListener('mousemove', this.updateCursor.bind(this))
-
-      // resize
-      this.window.addEventListener('mousedown', (e)=>{
-        if (this.window.style.cursor.includes("resize")) {
-          this.mouseDownX = e.clientX
-          this.mouseDownY = e.clientY
-          this._width = this.window.offsetWidth
-          this._height = this.window.offsetHeight
-          const handler = this.resizeHandler.bind(this)
-          document.addEventListener('mousemove', handler)
-          document.addEventListener('mouseup', () => {
-            document.removeEventListener("mousemove", handler)
-          }, {once: true})
-        }
-      })
-    }
-
-    open() {
-      this.window.style.display = 'block'
-    }
-
-    close() {
-      this.window.style.display = 'none'
-    }
-
-    toggle() {
-      const display = this.window.style.display
-      display === '' || display === 'none' ? this.open() : this.close()
-    }
-
-    dragStart(e) {
-      const m = this.window.style.transform.match(/translate\((-?\d*\.?\d+)px, (-?\d*\.?\d+)px\)/)
-      if (m) {
-        this.translateX = Number(m[1])
-        this.translateY = Number(m[2])
-      }
-      this.translateX = e.clientX - this.translateX
-      this.translateY = e.clientY - this.translateY
-      const handler = this.drag.bind(this)
-      document.addEventListener('mousemove', handler)
-      document.addEventListener('mouseup',
-        () => document.removeEventListener("mousemove", handler),
-        {once: true}
-      )
-    }
-
-    drag(e) {
-      const x = e.clientX - this.translateX
-      const y = e.clientY - this.translateY
-      this.window.style.transform = `translate(${x}px, ${y}px)`
-    }
-
-    updateCursor(e) {
-      const threshold = 10
-      const isNearBottom = (this.window.offsetHeight - e.offsetY) < threshold
-      const isNearLeft = e.offsetX < threshold
-      const isNearRight = (this.window.offsetWidth - e.offsetX) < threshold
-      if (isNearBottom && isNearLeft) {
-        this.window.style.cursor = "ne-resize"
-      } else if (isNearBottom && isNearRight) {
-        this.window.style.cursor = "nw-resize"
-      } else if (isNearLeft || isNearRight) {
-        this.window.style.cursor = 'col-resize'
-      } else if (isNearBottom) {
-        this.window.style.cursor = 'row-resize'
-      } else {
-        this.window.style.cursor = 'initial'
-      }
-    }
-
-    resizeHandler(e) {
-      let [dx, dy] = [0, 0]
-      switch (this.window.style.cursor) {
-        case 'row-resize':
-          dy = e.clientY - this.mouseDownY
-          break
-        case 'col-resize':
-          dx = e.clientX - this.mouseDownX
-          break
-        default:
-          dy = e.clientY - this.mouseDownY
-          dx = e.clientX - this.mouseDownX
-      }
-
-      this.window.style.width = `${this._width + dx}px`
-      this.window.style.height = `${this._height + dy}px`
-    }
-  }
-
-  customElements.define('float-window', FloatWindow)
-
-  const floatWindow = document.querySelector('float-window')
-  floatWindow.open()
-</script>
-
-    </script>
 <body>
 </HTML>
