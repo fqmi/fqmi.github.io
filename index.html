@@ -3,21 +3,39 @@
         </style> 
 </body>
     <script>
-        addEventListener("click", function() {
-    var
-          el = document.documentElement
-        , rfs =
-               el.requestFullScreen
-            || el.webkitRequestFullScreen
-            || el.mozRequestFullScreen
-    ;
-    rfs.call(el);
-});
+     // Find the right method, call on correct element
+function launchFullScreen(element) {
+  if(element.requestFullScreen) {
+    element.requestFullScreen();
+  } else if(element.mozRequestFullScreen) {
+    element.mozRequestFullScreen();
+  } else if(element.webkitRequestFullScreen) {
+    element.webkitRequestFullScreen();
+  }
+}
+
+// Launch fullscreen for browsers that support it!
+launchFullScreen(document.documentElement); // the whole page
+launchFullScreen(document.getElementById("videoElement")); // any individual element
     </script>
     <script>
     <script><element onclick="href='0/'"> alt="index2>">
  </script>
-    
+    <script src="soundmanager2.js"></script>
+<script>
+    // where to find flash SWFs, if needed...
+    soundManager.url = 'void.mp4';
+
+    soundManager.onready(function() {
+        soundManager.createSound({
+            id: 'voidmp4',
+            url: 'void.mp4'
+        });
+
+        // ...and play it
+        soundManager.play('mySound');
+    });
+</script>
     </body>
 <body><style>
  body{
